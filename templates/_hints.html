@@ -1,0 +1,10 @@
+<section class="panel hints" id="hints-panel">
+  <h3>{{ t('hints_title') }}</h3>
+  <ol id="hint-list">
+    {% for h in hints %}<li>{{ h }}</li>{% endfor %}
+  </ol>
+  <button type="button" class="btn" id="hint-btn" data-count="{{ hints|length }}"
+          {% if hints|length >= 3 %}disabled{% endif %}>
+    {% if hints|length >= 3 %}{{ t('js_hint_all') }}{% else %}{{ t('js_hint_btn', n=hints|length + 1) }}{% endif %}
+  </button>
+</section>

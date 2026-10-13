@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block page %}index{% endblock %}
+{% block content %}
+<section class="panel hero">
+  <img class="fish" src="{{ url_for('static', filename='img/fish.webp') }}" alt="" width="360" height="240">
+  <h1 class="glow-title">KRAKNAUTICA 2099</h1>
+  <p class="lead">{{ t('index_tagline') }}</p>
+  <p>{{ t('index_story_1') }}</p>
+  <p>{{ t('index_story_2') }}</p>
+</section>
+
+{% if error %}
+<p class="alert bad" role="alert">{{ t(error) }}</p>
+{% endif %}
+
+{% if player %}
+<section class="panel">
+  <h2>{{ t('index_welcome', nick=player.nickname) }}</h2>
+  <p>{{ t('index_save_code') }}</p>
+  <p class="bigcode">{{ player.resume_code }}</p>
+  <a class="btn primary block" href="{{ url_for('play') }}">{{ t('index_continue') }}</a>
+</section>
+{% else %}
+<form class="panel" method="post" action="{{ url_for('register') }}" autocomplete="off">
+  <h2>{{ t('index_start') }}</h2>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <label for="nickname">{{ t('index_nick_label') }}</label>
+  <input id="nickname" name="nickname" type="text" maxlength="16" minlength="2" required
+         autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="np. NeoDiver">
+  <p class="hint-text">{{ t('index_nick_rules') }}</p>
+  <button type="submit" class="btn primary block">{{ t('index_start_btn') }}</button>
+</form>
+
+<form class="panel" method="post" action="{{ url_for('resume') }}" autocomplete="off">
+  <h2>{{ t('index_resume_title') }}</h2>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <label for="code">{{ t('index_resume_label') }}</label>
+  <input id="code" name="code" type="text" maxlength="30" required autocapitalize="characters"
+         autocorrect="off" spellcheck="false" placeholder="KRAKEN-1234">
+  <button type="submit" class="btn block">{{ t('index_resume_btn') }}</button>
+</form>
+{% endif %}
+{% endblock %}

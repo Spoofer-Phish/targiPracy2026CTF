@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block page %}level4{% endblock %}
+{% block content %}
+{% if stage == 'l4a' %}
+<h1 class="level-title"><span class="dim">{{ t('level_word') }} 4 /</span> {{ t('l4_title_a') }}</h1>
+<section class="panel">
+  <div class="caesar-head">
+    <p style="margin: 0;">{{ t('l4_story_a') }}</p>
+    <button type="button" class="chip" id="phish-help-btn" aria-expanded="false" aria-controls="phish-help"
+            title="{{ t('l4_phish_help_btn') }}">?</button>
+  </div>
+  <div class="note" id="phish-help" hidden style="margin-top: 10px;">
+    <h4>{{ t('l4_phish_help_title') }}</h4>
+    <p>{{ t('l4_phish_help_1') }}</p>
+    <p>{{ t('l4_phish_help_2') }}</p>
+  </div>
+  <p class="hint-text" style="margin-top: 8px;">{{ t('l4_tap_hint') }}</p>
+</section>
+
+<section class="panel inbox" id="inbox">
+  {% for e in emails %}
+  <article class="mail" data-id="{{ e.id }}">
+    <button type="button" class="mail-head" aria-expanded="false">
+      <span class="from">{{ e.name[lang] }} &lt;{{ e['from'] }}&gt;</span>
+      <span class="subj">{{ e.subject[lang] }}</span>
+    </button>
+    <div class="mail-body" hidden>
+      <pre class="mail-text">{{ e.body[lang] }}</pre>
+      {% if e.link %}<p class="mail-link">{{ e.link }}</p>{% endif %}
+      <button type="button" class="btn small danger report-btn" data-id="{{ e.id }}">{{ t('l4_report') }}</button>
+      <p class="msg" role="status"></p>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+
+{% elif stage == 'l4b' %}
+<h1 class="level-title"><span class="dim">{{ t('level_word') }} 4 /</span> {{ t('l4_title_b') }}</h1>
+<section class="panel">
+  <h3>{{ t('l4_caught') }}</h3>
+  <p>{{ t('l4_caught_text', address=nereus_address) }}</p>
+  <ul>
+    {% for f in red_flags %}<li>{{ f[lang] }}</li>{% endfor %}
+  </ul>
+</section>
+
+<section class="panel compose" id="compose">
+  <p>{{ t('l4_story_b') }}</p>
+  <a class="btn block" href="{{ url_for('memo') }}">{{ t('l4_open_memo') }}</a>
+  <p class="mailfield"><span class="dim">{{ t('l4_to') }}:</span> {{ nereus_address }}</p>
+  <fieldset id="phrases">
+    <legend>{{ t('l4_msg') }}</legend>
+    {% for p in phrases %}
+    <label class="phrase-opt">
+      <input type="radio" name="phrase" value="{{ p.id }}">
+      <span>{{ p.text }}</span>
+    </label>
+    {% endfor %}
+  </fieldset>
+  <button type="button" class="btn primary block" id="send-btn">{{ t('l4_send') }}</button>
+  <pre class="console" id="send-log" aria-live="polite"></pre>
+</section>
+
+{% else %}
+<h1 class="level-title"><span class="dim">{{ t('level_word') }} 4 /</span> {{ t('l4_title_c') }}</h1>
+<section class="panel">
+  <p class="alert good">{{ t('l4_leaked') }}</p>
+  <div class="caesar-head">
+    <p style="margin: 0;">{{ t('l4_story_c') }}</p>
+    <button type="button" class="chip" id="stego-help-btn" aria-expanded="false" aria-controls="stego-help"
+            title="{{ t('l4_stego_help_btn') }}">?</button>
+  </div>
+  <div class="note" id="stego-help" hidden style="margin-top: 10px;">
+    <h4>{{ t('l4_stego_help_title') }}</h4>
+    <p>{{ t('l4_stego_help_1') }}</p>
+    <p>{{ t('l4_stego_help_2') }}</p>
+  </div>
+  <div class="scanner" id="scanner" data-src="{{ url_for('sonar_scan') }}" style="margin-top: 12px;">
+    <canvas id="scan-canvas" width="10" height="10"></canvas>
+    <p class="msg" id="scan-status">{{ t('l4_scan_loading') }}</p>
+    <div class="scan-controls">
+      <label for="gain">{{ t('l4_gain') }}: <strong id="gain-val">1</strong></label>
+      <input type="range" id="gain" min="1" max="60" value="1">
+      <div class="row">
+        <button type="button" class="btn small" id="uv-btn" aria-pressed="false">UV</button>
+        <button type="button" class="btn small" id="invert-btn" aria-pressed="false">{{ t('l4_invert') }}</button>
+        <button type="button" class="btn small" id="scan-reset">{{ t('l4_scan_reset') }}</button>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% include "_hints.html" %}
+{% if has_flag %}{% include "_flag.html" %}{% endif %}
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/level4.js') }}" defer></script>{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block page %}adminlogin{% endblock %}
+{% block content %}
+<form class="panel" method="post" action="{{ url_for('admin_login') }}" autocomplete="off">
+  <h2>{{ t('admin_login_title') }}</h2>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  {% if error %}<p class="alert bad" role="alert">{{ t('admin_login_bad') }}</p>{% endif %}
+  <label for="password">{{ t('admin_password') }}</label>
+  <input id="password" name="password" type="password" maxlength="100" required>
+  <button type="submit" class="btn primary block">{{ t('admin_login_btn') }}</button>
+</form>
+{% endblock %}

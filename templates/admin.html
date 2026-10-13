@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block page %}admin{% endblock %}
+{% block content %}
+<h1 class="level-title">{{ t('admin_title') }}</h1>
+
+<section class="panel">
+  <h3>{{ t('admin_stats') }}</h3>
+  <dl class="stats">
+    <dt>{{ t('admin_players') }}</dt><dd id="st-total">-</dd>
+    <dt>{{ t('admin_finished') }}</dt><dd id="st-finished">-</dd>
+    <dt>{{ t('admin_given') }}</dt><dd id="st-claimed">-</dd>
+    <dt>{{ t('admin_stock') }}</dt><dd id="st-gadgets">-</dd>
+  </dl>
+  <div class="row">
+    <input id="stock-input" type="number" min="0" max="100000" inputmode="numeric" aria-label="{{ t('admin_stock') }}">
+    <button type="button" class="btn" id="stock-btn">{{ t('admin_set_stock') }}</button>
+  </div>
+</section>
+
+<section class="panel">
+  <h3>{{ t('admin_desk') }}</h3>
+  <label for="claim-input">{{ t('admin_claim_label') }}</label>
+  <div class="row">
+    <input id="claim-input" type="text" maxlength="12" autocapitalize="characters" autocorrect="off"
+           spellcheck="false" placeholder="ABC-123">
+    <button type="button" class="btn primary" id="claim-check">{{ t('admin_check') }}</button>
+  </div>
+  <p class="msg" id="claim-msg" role="status"></p>
+  <button type="button" class="btn primary block" id="claim-give" hidden>{{ t('admin_give') }}</button>
+</section>
+
+<section class="panel">
+  <h3>{{ t('admin_board') }}</h3>
+  <div class="table-wrap"><table class="board" id="admin-table"><thead>
+    <tr><th>#</th><th>{{ t('board_nick') }}</th><th>{{ t('board_level') }}</th><th>{{ t('board_time') }}</th><th>{{ t('board_hints') }}</th><th>{{ t('admin_claim_col') }}</th><th></th></tr>
+  </thead><tbody></tbody></table></div>
+</section>
+
+<section class="panel danger-zone">
+  <h3>{{ t('admin_danger') }}</h3>
+  <p class="hint-text">{{ t('admin_reset_help') }}</p>
+  <button type="button" class="btn danger block" id="reset-event">{{ t('admin_reset') }}</button>
+  <form method="post" action="{{ url_for('admin_logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <button type="submit" class="btn block">{{ t('admin_logout') }}</button>
+  </form>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/admin.js') }}" defer></script>{% endblock %}

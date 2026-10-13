@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block page %}done{% endblock %}
+{% block content %}
+<section class="panel hero">
+  <img class="fish" src="{{ url_for('static', filename='img/fish.webp') }}" alt="" width="360" height="240">
+  <h1 class="glow-title">{{ t('done_title') }}</h1>
+  <p class="lead">{{ t('done_text', nick=player.nickname) }}</p>
+</section>
+
+<section class="panel">
+  <h3>{{ t('done_claim') }}</h3>
+  <p class="bigcode claim">{{ claim_code }}</p>
+  <p>{{ t('done_show') }}</p>
+  {% if claimed %}<p class="alert good">{{ t('done_claimed') }}</p>{% endif %}
+  <dl class="stats">
+    <dt>{{ t('done_time') }}</dt><dd>{{ seconds|clock }}</dd>
+    <dt>{{ t('done_hints') }}</dt><dd>{{ total_hints }}</dd>
+  </dl>
+</section>
+
+<section class="panel">
+  <p>{{ t('done_join') }}</p>
+</section>
+{% endblock %}

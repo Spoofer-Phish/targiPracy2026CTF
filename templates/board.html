@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block page %}board{% endblock %}
+{% block content %}
+<h1 class="level-title">{{ t('board_title') }}</h1>
+<section class="panel">
+  <div class="table-wrap"><table class="board" id="board-table"><thead>
+    <tr><th>#</th><th>{{ t('board_nick') }}</th><th>{{ t('board_level') }}</th><th>{{ t('board_time') }}</th><th>{{ t('board_hints') }}</th></tr>
+  </thead><tbody></tbody></table></div>
+  <p class="hint-text" id="board-empty" hidden>{{ t('board_empty') }}</p>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/board.js') }}" defer></script>{% endblock %}

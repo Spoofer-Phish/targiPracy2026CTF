@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block page %}level2{% endblock %}
+{% block content %}
+{% if stage == 'l2a' %}
+<h1 class="level-title"><span class="dim">{{ t('level_word') }} 2 /</span> {{ t('l2_title_a') }}</h1>
+
+<section class="panel">
+  <p>{{ t('l2_story_a') }}</p>
+  <div class="caesar-head">
+    <h3>{{ t('l2_cipher_title') }}</h3>
+    <button type="button" class="chip" id="help-btn" aria-expanded="false" aria-controls="caesar-help"
+            title="{{ t('l2_help_btn') }}">?</button>
+  </div>
+  <div class="note" id="caesar-help" hidden>
+    <h4>{{ t('l2_help_title') }}</h4>
+    <p>{{ t('l2_help_1') }}</p>
+    <p>{{ t('l2_help_2') }}</p>
+    <pre class="console">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+ &#8595; shift 3
+D E F G H I J K L M N O P Q R S T U V W X Y Z A B C</pre>
+    <p>{{ t('l2_help_3') }}</p>
+  </div>
+  <pre class="console cipher" id="cipher">{{ cipher }}</pre>
+
+  <div class="shift">
+    <button type="button" class="btn small" id="shift-minus" aria-label="-">&minus;</button>
+    <input type="range" id="shift" min="1" max="25" value="1" aria-label="{{ t('l2_shift') }}">
+    <button type="button" class="btn small" id="shift-plus" aria-label="+">+</button>
+    <span class="shift-val">{{ t('l2_shift') }}: <strong id="shift-val">1</strong></span>
+  </div>
+  <pre class="console plain" id="plain" aria-live="polite"></pre>
+</section>
+
+<form class="panel" id="login-form" autocomplete="off">
+  <h3>{{ t('l2_login_title') }}</h3>
+  <label for="mf-pass">{{ t('l2_login_label') }}</label>
+  <div class="row">
+    <input id="mf-pass" type="text" maxlength="40" autocapitalize="off" autocorrect="off"
+           spellcheck="false" placeholder="********">
+    <button type="submit" class="btn primary">{{ t('l2_login_btn') }}</button>
+  </div>
+  <p class="msg" id="login-msg" role="status"></p>
+</form>
+
+{% else %}
+<h1 class="level-title"><span class="dim">{{ t('level_word') }} 2 /</span> {{ t('l2_title_b') }}</h1>
+
+<section class="panel">
+  <p>{{ t('l2_story_b') }}</p>
+  <div class="terminal" id="term">
+    <pre class="term-out" id="term-out" aria-live="polite" data-banner="{{ t('term_banner') }}"></pre>
+    <form id="term-form" class="term-line" autocomplete="off">
+      <label for="term-in" class="prompt" id="term-prompt">captain@kraknautica:~$</label>
+      <input id="term-in" type="text" maxlength="200" autocapitalize="off" autocorrect="off"
+             spellcheck="false" enterkeyhint="send" aria-label="{{ t('term_input') }}">
+    </form>
+  </div>
+  <div class="chips" id="term-chips">
+    <button type="button" class="chip" data-run="help">help</button>
+    <button type="button" class="chip" data-run="ls">ls</button>
+    <button type="button" class="chip" data-run="ls -a">ls -a</button>
+    <button type="button" class="chip" data-run="pwd">pwd</button>
+    <button type="button" class="chip" data-run="cd ..">cd ..</button>
+    <button type="button" class="chip" data-fill="cd ">cd …</button>
+    <button type="button" class="chip" data-fill="cat ">cat …</button>
+    <button type="button" class="chip" data-run="clear">clear</button>
+  </div>
+</section>
+{% endif %}
+
+{% include "_hints.html" %}
+{% if has_flag %}{% include "_flag.html" %}{% endif %}
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/level2.js') }}" defer></script>{% endblock %}

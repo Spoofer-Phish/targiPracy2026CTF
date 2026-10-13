@@ -1,0 +1,10 @@
+<form class="panel flag" id="flag-form" autocomplete="off">
+  <h3>{{ t('flag_title') }}</h3>
+  <label for="flag-input">{{ t('flag_label') }}</label>
+  <div class="row">
+    <input id="flag-input" type="text" maxlength="100" autocapitalize="off" autocorrect="off"
+           spellcheck="false" placeholder="SPOOF{...}">
+    <button type="submit" class="btn primary">{{ t('flag_submit') }}</button>
+  </div>
+  <p class="msg" id="flag-msg" role="status"></p>
+</form>

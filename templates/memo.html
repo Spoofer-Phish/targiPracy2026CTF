@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block page %}memo{% endblock %}
+{% block content %}
+<h1 class="level-title">{{ t('memo_title') }}</h1>
+
+<section class="panel">
+  <h3>{{ t('memo_head') }}</h3>
+  <p>{{ t('memo_text_1') }}</p>
+  <p class="bigcode phrase">{{ phrase }}</p>
+  <p>{{ t('memo_text_2') }}</p>
+</section>
+
+{% if flag %}
+<section class="panel">
+  <h3>{{ t('flag_title') }}</h3>
+  <p>{{ t('memo_flag') }}</p>
+  <p class="bigcode" id="memo-flag">{{ flag }}</p>
+  <p class="hint-text">{{ t('memo_flag_hint') }}</p>
+</section>
+{% endif %}
+
+<a class="btn primary block" href="{{ url_for('play') }}">{{ t('memo_back') }}</a>
+{% endblock %}

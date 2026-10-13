@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#020a04">
+<meta name="csrf-token" content="{{ csrf_token }}">
+<title>{% block title %}KRAKNAUTICA 2099{% endblock %}</title>
+<link rel="icon" href="{{ url_for('static', filename='img/logo_pk.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/crt.css') }}">
+</head>
+<body data-page="{% block page %}{% endblock %}">
+<div id="screen">
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='img/logo_pk.png') }}" alt="PK" width="34" height="34">
+      <img src="{{ url_for('static', filename='img/logo_pk_it.png') }}" alt="" width="34" height="34">
+      <span>KRAKNAUTICA<span class="year"> 2099</span></span>
+    </a>
+    <div class="tools">
+      <a class="chip {% if lang == 'pl' %}on{% endif %}" href="{{ url_for('set_language', code='pl', next=current_url) }}">PL</a>
+      <a class="chip {% if lang == 'en' %}on{% endif %}" href="{{ url_for('set_language', code='en', next=current_url) }}">EN</a>
+      <button type="button" class="chip" id="fx-toggle" title="CRT">CRT</button>
+    </div>
+  </header>
+
+  {% if player %}
+  <nav class="status" aria-label="status">
+    <div class="who">
+      <span>&gt; {{ player.nickname }}</span>
+      <span class="dim">{{ t('status_code') }}: <strong>{{ player.resume_code }}</strong></span>
+    </div>
+    <ol class="steps" aria-label="{{ t('status_progress') }}">
+      {% for n in range(1, 5) %}
+      <li class="{% if current_level and current_level > n %}done{% elif current_level == n %}now{% endif %}">{{ n }}</li>
+      {% endfor %}
+    </ol>
+    <form method="post" action="{{ url_for('logout') }}" class="logout">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <button type="submit" class="link">{{ t('status_logout') }}</button>
+    </form>
+  </nav>
+  {% endif %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <span>KN SpooferPhish</span> <span class="dim">/</span> <span>Politechnika Krakowska</span>
+  </footer>
+</div>
+
+<div class="crt-roll" aria-hidden="true"></div>
+<div class="crt-overlay" aria-hidden="true"></div>
+
+<script type="application/json" id="js-i18n">{{ js_strings|tojson }}</script>
+<script src="{{ url_for('static', filename='js/common.js') }}" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
